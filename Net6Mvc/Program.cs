@@ -1,7 +1,23 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Net6Mvc.Domain.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// autofac
+{
+    builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+    builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterType<TimeStampHelper>()
+            .As<ITimeStampHelper>()
+            .SingleInstance();
+    });
+}
 
 var app = builder.Build();
 
