@@ -1,11 +1,17 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Net6Mvc.Applibs;
 using Net6Mvc.Domain.Model;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// nlog
+builder.Host.UseNLog();
 
 // autofac
 {
@@ -39,5 +45,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// nlog’Jappsetting‘O∂®
+NLog.LogManager.Configuration = new NLogLoggingConfiguration(ConfigHelper.Config.GetSection("NLog"));
 
 app.Run();
