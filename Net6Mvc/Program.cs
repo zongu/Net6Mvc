@@ -10,6 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // 設定 PascalCase 格式，而不是預設的 camelCase 格式
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
+
 // nlog
 builder.Host.UseNLog();
 
